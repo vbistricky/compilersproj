@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "/Users/kyleconverse/kconv/lib/antlr-4.11.1-complete.jar"
+    ]
+}
