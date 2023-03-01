@@ -1,5 +1,5 @@
-
 public class SymbolTableBuilder extends LittleBaseListener {
+
     @Override
     public void enterProgram(LittleParser.ProgramContext ctx) {
         // 1. Make a new symbol table or "Global"
@@ -19,6 +19,14 @@ public class SymbolTableBuilder extends LittleBaseListener {
 
         // 2. create a new symbol table entry using the above info and insert to the
         // table at the top of the stack (i.e. current table)
+    }
+
+    @Override
+    public void enterVar_decl(LittleParser.Var_declContext ctx) {
+
+        String type = ctx.var_type().getText();
+        String name = ctx.id_list().getText();
+        System.out.println("name " + name + " type " + type);
     }
 
 }
