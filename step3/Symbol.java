@@ -32,7 +32,7 @@ public class Symbol {
     }
 
     public String toString() {
-        String s = "name" + name + " type " + type;
+        String s = "name " + name + " type " + type;
         if (value != null) {
             s += " value " + value;
         }

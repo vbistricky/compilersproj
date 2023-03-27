@@ -24,17 +24,15 @@ public class SymbolTableBuilder extends LittleBaseListener {
         // 1. Pop the scope stack
         scopeStack.pop();
         // 2. Set the current scope to the top of the stack
-        currentScope = scopeStack.peek();
     }
 
     @Override
     public void enterString_decl(LittleParser.String_declContext ctx) {
-
         // 1. extract the name, type, value
         String name = ctx.id().getText();
         String type = "STRING";
         String value = ctx.str().getText();
-        System.out.println(name + ", " + type + ", " + value);
+        System.out.println("name " + name + " type " + type + " value " + value);
 
         // 2. create a new symbol table entry using the above info and insert to the
         // table at the top of the stack (i.e. current table)
@@ -52,34 +50,11 @@ public class SymbolTableBuilder extends LittleBaseListener {
 
         Symbol symbol = new Symbol(name, type);
         currentScope.addSymbol(symbol);
-
-    }
-
-    @Override
-    public void enterVar_type(LittleParser.Var_typeContext ctx) {
-        String type = ctx.getText();
-        System.out.println("type " + type);
     }
 
     @Override
     public void enterId_list(LittleParser.Id_listContext ctx) {
 
-        String name = ctx.id().getText();
-        String type = "INT";
-        System.out.println("name " + name + " type " + type);
-
-        Symbol symbol = new Symbol(name, type);
-        currentScope.addSymbol(symbol);
-    }
-
-    @Override
-    public void enterId_tail(LittleParser.Id_tailContext ctx) {
-        String name = ctx.id().getText();
-        String type = "INT";
-        System.out.println("name " + name + " type " + type);
-
-        Symbol symbol = new Symbol(name, type);
-        currentScope.addSymbol(symbol);
     }
 
     @Override
@@ -92,22 +67,23 @@ public class SymbolTableBuilder extends LittleBaseListener {
 
         // add the parameters to the function scope
         LittleParser.Param_decl_listContext paramList = ctx.param_decl_list();
-        if (paramList != null) {
-            List<LittleParser.Param_declContext> params = paramList.param_decl();
-            for (int i = 0; i < params.size(); i++) {
-                LittleParser.Param_declContext param = params.get(i);
-                String name = param.id().getText();
-                String type = param.var_type().getText();
-                Symbol symbol = new Symbol(name, type);
-                funcScope.addSymbol(symbol);
-            }
-        }
+
     }
 
     @Override
     public void exitFunc_decl(LittleParser.Func_declContext ctx) {
         scopeStack.pop();
         currentScope = scopeStack.peek();
+    }
+
+    public static void main(String[] args) {
+
+    }
+
+    public void prettyPrint() {
+        for (SymbolTable st : symbolTables) {
+            System.out.println(st);
+        }
     }
 
 }
