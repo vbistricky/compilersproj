@@ -23,7 +23,6 @@ public class SymbolTableBuilder extends LittleBaseListener {
     public void exitProgram(LittleParser.ProgramContext ctx) {
         // 1. Pop the scope stack
         scopeStack.pop();
-        // 2. Set the current scope to the top of the stack
     }
 
     @Override
@@ -32,7 +31,7 @@ public class SymbolTableBuilder extends LittleBaseListener {
         String name = ctx.id().getText();
         String type = "STRING";
         String value = ctx.str().getText();
-        System.out.println("name " + name + " type " + type + " value " + value);
+        // System.out.println("name " + name + " type " + type + " value " + value);
 
         // 2. create a new symbol table entry using the above info and insert to the
         // table at the top of the stack (i.e. current table)
@@ -43,18 +42,17 @@ public class SymbolTableBuilder extends LittleBaseListener {
 
     @Override
     public void enterVar_decl(LittleParser.Var_declContext ctx) {
-
         String type = ctx.var_type().getText();
-        String name = ctx.id_list().getText();
-        System.out.println("name " + name + " type " + type);
-
-        Symbol symbol = new Symbol(name, type);
-        currentScope.addSymbol(symbol);
+        enterId_list(ctx.id_list(), type);
     }
 
-    @Override
-    public void enterId_list(LittleParser.Id_listContext ctx) {
-
+    public void enterId_list(LittleParser.Id_listContext ctx, String type) {
+        String idList = ctx.getText();
+        String[] ids = idList.split(",");
+        for (String id : ids) {
+            Symbol symbol = new Symbol(id, type);
+            currentScope.addSymbol(symbol);
+        }
     }
 
     @Override
