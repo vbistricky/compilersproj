@@ -1,6 +1,6 @@
-1. test1, test5, test16. Little to no nesting, so very little context switching
-2. test7, test13, test19, test21. Lots of nesting and returning function calls means lots of context switching
-3.:
+1. test1, test5, test16. These test cases have very few nested code blocks and no function calls. This means there are few scopes to track and fewer points of failure
+2. test7, test13, test19, test21. These cases have lots of nesting and function calls which means a well implemented stack of symbol tables is critical to passing the test case.
+3.
 enterProgram(LittleParser.ProgramContext ctx)
 enterPgm_body(LittleParser.Pgm_bodyContext ctx)
 exitPgm_body(LittleParser.Pgm_bodyContext ctx)
@@ -49,3 +49,11 @@ enterCond(LittleParser.CondContext ctx)
 enterCompop(LittleParser.CompopContext ctx)
 enterWhile_stmt(LittleParser.While_stmtContext ctx)
 exitWhile_stmt(LittleParser.While_stmtContext ctx)
+
+4. We believe that linked lists should be used for implementing the symbol tables. We would implement a list of lists to store symbol tables.
+The main list would store all the symbol tables, and each symbol table and its related variable declarations would be stored in the inner lists
+The main list would act as a stack, pushing on new symbol tables as new scopes are opened and popping them off once said scopes are closed.
+We think this would be one of the simplest ways to implement the symbol tables, compared to hash tables or trees, making it our main choice.
+Using a list stack would make pushing and popping off symbol tables as scopes are entered and exited very simple.
+
+5. A Visitor is more of a manual mechanism that a Listener. Visitor methods must be called explicitly for each child in the parse tree, and failing to invoke a method to visit any child means the subtree will not be visited. A Listener uses a walker object that calls listener methods on its own as previously defined. A Listener has less control of the traversal of the tree as a result.
