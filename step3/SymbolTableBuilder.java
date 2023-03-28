@@ -7,6 +7,7 @@ public class SymbolTableBuilder extends LittleBaseListener {
     private Stack<SymbolTable> scopeStack = new Stack<SymbolTable>();
     private List<SymbolTable> symbolTables = new ArrayList<>();
     private SymbolTable currentScope;
+    private static int blockNum = 0;
 
     @Override
     public void enterProgram(LittleParser.ProgramContext ctx) {
@@ -23,6 +24,7 @@ public class SymbolTableBuilder extends LittleBaseListener {
     public void exitProgram(LittleParser.ProgramContext ctx) {
         // 1. Pop the scope stack
         scopeStack.pop();
+        blockNum = 0;
     }
 
     @Override
@@ -62,20 +64,72 @@ public class SymbolTableBuilder extends LittleBaseListener {
         symbolTables.add(funcScope);
         scopeStack.push(funcScope);
         currentScope = funcScope;
-
-        // add the parameters to the function scope
-        LittleParser.Param_decl_listContext paramList = ctx.param_decl_list();
-
     }
 
     @Override
     public void exitFunc_decl(LittleParser.Func_declContext ctx) {
         scopeStack.pop();
-        currentScope = scopeStack.peek();
     }
 
-    public static void main(String[] args) {
+    @Override
+    public void enterParam_decl_list(LittleParser.Param_decl_listContext ctx) {
+        String prmList[] = ctx.getText().split(",");
+        for (String prm : prmList) {
+            // System.out.println(prm);
+        }
+    }
 
+    @Override
+    public void enterParam_decl(LittleParser.Param_declContext ctx) {
+        String type = ctx.var_type().getText();
+        String name = ctx.id().getText();
+        Symbol symbol = new Symbol(name, type);
+        currentScope.addSymbol(symbol);
+    }
+
+    @Override
+    public void enterIf_stmt(LittleParser.If_stmtContext ctx) {
+        blockNum++;
+        String ifName = "BLOCK " + blockNum;
+        SymbolTable ifScope = new SymbolTable(ifName);
+        symbolTables.add(ifScope);
+        scopeStack.push(ifScope);
+        currentScope = ifScope;
+    }
+
+    @Override
+    public void exitIf_stmt(LittleParser.If_stmtContext ctx) {
+        scopeStack.pop();
+    }
+
+    @Override
+    public void enterElse_part(LittleParser.Else_partContext ctx) {
+        blockNum++;
+        String elseName = "BLOCK " + blockNum;
+        SymbolTable elseScope = new SymbolTable(elseName);
+        symbolTables.add(elseScope);
+        scopeStack.push(elseScope);
+        currentScope = elseScope;
+    }
+
+    @Override
+    public void exitElse_part(LittleParser.Else_partContext ctx) {
+        scopeStack.pop();
+    }
+
+    @Override
+    public void enterWhile_stmt(LittleParser.While_stmtContext ctx) {
+        blockNum++;
+        String whileName = "BLOCK " + blockNum;
+        SymbolTable whileScope = new SymbolTable(whileName);
+        symbolTables.add(whileScope);
+        scopeStack.push(whileScope);
+        currentScope = whileScope;
+    }
+
+    @Override
+    public void exitWhile_stmt(LittleParser.While_stmtContext ctx) {
+        scopeStack.pop();
     }
 
     public void prettyPrint() {
@@ -83,5 +137,4 @@ public class SymbolTableBuilder extends LittleBaseListener {
             System.out.println(st);
         }
     }
-
 }
