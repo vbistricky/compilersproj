@@ -20,24 +20,20 @@ public class SymbolTable {
         return symbols;
     }
 
-    // public boolean checkDuplicates(String name, String[] vars) {
+    public boolean checkDuplicates(String name) {
 
-    // for (int i = 0; i < vars.length; i++) {
-    // int incr = 0;
-    // System.out.println(vars[i] + name);
-    // if (vars[i].equals(name)) {
-    // incr++;
-    // if (incr > 1) {
-    // return true;
-    // }
-    // }
-    // }
+        for (int i = 0; i < symbols.size(); i++) {
+            if (symbols.get(i).getName().equals(name)) {
+                System.out.println("DECLARATION ERROR " + name);
+                System.exit(0);
+            }
+        }
 
-    // return false;
-    // }
+        return false;
+    }
 
     public String toString() {
-        String s = "Symbol Table " + name;
+        String s = "Symbol table " + name;
 
         for (int i = 0; i < symbols.size(); i++) {
             s += "\n";

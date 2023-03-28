@@ -55,8 +55,8 @@ public class SymbolTableBuilder extends LittleBaseListener {
         String[] ids = idList.split(",");
 
         for (String id : ids) {
-            // System.out.println(currentScope.checkDuplicates(id, ids));
             Symbol symbol = new Symbol(id, type);
+            currentScope.checkDuplicates(id);
             currentScope.addSymbol(symbol);
         }
     }
@@ -142,7 +142,8 @@ public class SymbolTableBuilder extends LittleBaseListener {
 
     public void prettyPrint() {
         for (SymbolTable st : symbolTables) {
-            System.out.println(st);
+            System.out.println(st.toString());
+            System.out.println();
         }
     }
 }
