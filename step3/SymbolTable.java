@@ -20,6 +20,22 @@ public class SymbolTable {
         return symbols;
     }
 
+    // public boolean checkDuplicates(String name, String[] vars) {
+
+    // for (int i = 0; i < vars.length; i++) {
+    // int incr = 0;
+    // System.out.println(vars[i] + name);
+    // if (vars[i].equals(name)) {
+    // incr++;
+    // if (incr > 1) {
+    // return true;
+    // }
+    // }
+    // }
+
+    // return false;
+    // }
+
     public String toString() {
         String s = "Symbol Table " + name;
 

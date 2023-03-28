@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import org.antlr.v4.runtime.tree.ErrorNode;
+
 public class SymbolTableBuilder extends LittleBaseListener {
 
     private Stack<SymbolTable> scopeStack = new Stack<SymbolTable>();
@@ -51,7 +53,9 @@ public class SymbolTableBuilder extends LittleBaseListener {
     public void enterId_list(LittleParser.Id_listContext ctx, String type) {
         String idList = ctx.getText();
         String[] ids = idList.split(",");
+
         for (String id : ids) {
+            // System.out.println(currentScope.checkDuplicates(id, ids));
             Symbol symbol = new Symbol(id, type);
             currentScope.addSymbol(symbol);
         }
@@ -69,14 +73,6 @@ public class SymbolTableBuilder extends LittleBaseListener {
     @Override
     public void exitFunc_decl(LittleParser.Func_declContext ctx) {
         scopeStack.pop();
-    }
-
-    @Override
-    public void enterParam_decl_list(LittleParser.Param_decl_listContext ctx) {
-        String prmList[] = ctx.getText().split(",");
-        for (String prm : prmList) {
-            // System.out.println(prm);
-        }
     }
 
     @Override
@@ -104,6 +100,10 @@ public class SymbolTableBuilder extends LittleBaseListener {
 
     @Override
     public void enterElse_part(LittleParser.Else_partContext ctx) {
+        if (ctx.getText().equals("")) {
+            return;
+        }
+
         blockNum++;
         String elseName = "BLOCK " + blockNum;
         SymbolTable elseScope = new SymbolTable(elseName);
@@ -114,6 +114,9 @@ public class SymbolTableBuilder extends LittleBaseListener {
 
     @Override
     public void exitElse_part(LittleParser.Else_partContext ctx) {
+        if (ctx.getText().equals("")) {
+            return;
+        }
         scopeStack.pop();
     }
 
@@ -130,6 +133,11 @@ public class SymbolTableBuilder extends LittleBaseListener {
     @Override
     public void exitWhile_stmt(LittleParser.While_stmtContext ctx) {
         scopeStack.pop();
+    }
+
+    @Override
+    public void visitErrorNode(ErrorNode node) {
+        System.out.println("Error: " + node.getText());
     }
 
     public void prettyPrint() {
