@@ -54,7 +54,30 @@ public class SymbolTableBuilder extends LittleBaseListener {
     public void enterVar_decl(LittleParser.Var_declContext ctx) {
         String type = ctx.var_type().getText();
         enterId_list(ctx.id_list(), type);
-        
+    }
+
+    @Override
+    public void enterAssign_expr(LittleParser.Assign_exprContext ctx) {
+        String id = ctx.id().getText();
+        String expr = ctx.expr().getText();
+
+        String[] exprArray = expr.split("[-+*/]");
+
+        if (expr.contains("*")) {
+
+        } else if (expr.contains("/")) {
+
+        } else if (expr.contains("+")) {
+
+        } else if (expr.contains("-")) {
+
+        }
+
+        // get type from global symbol table from symbolTable.symbols.getType()
+        for (int i = 0; i < exprArray.length; i++) {
+            System.out.println(exprArray[i]);
+        }
+
     }
 
     public void enterId_list(LittleParser.Id_listContext ctx, String type) {
@@ -160,7 +183,7 @@ public class SymbolTableBuilder extends LittleBaseListener {
     }
 
     public void printIR() {
-        for (int x = 0; x < IRArray.size(); x++){
+        for (int x = 0; x < IRArray.size(); x++) {
             System.out.println(";" + IRArray.get(x));
         }
     }

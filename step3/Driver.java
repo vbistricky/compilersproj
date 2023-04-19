@@ -26,7 +26,9 @@ public class Driver {
 
         walker.walk(stb, tree);
 
-        stb.prettyPrint();
+        // stb.prettyPrint();
+
+        stb.printIR();
 
     }
 }
