@@ -299,7 +299,9 @@ public class SymbolTableBuilder extends LittleBaseListener {
             } else if (tempArray[0].compareTo("DIVF") == 0) {
                 System.out.println("move " + tempArray[1] + " r" + rIterate);
                 System.out.println("divf " + tempArray[2] + " " + "r" + rIterate);
-            } else if (tempArray[0].compareTo("WRITEI") == 0 || tempArray[0].compareTo("WRITEF") == 0) {
+            } else if (tempArray[0].compareTo("WRITEI") == 0) {
+                System.out.println("sys writei " + tempArray[1]);
+            } else if (tempArray[0].compareTo("WRITEF") == 0) {
                 System.out.println("sys writer " + tempArray[1]);
             } else if (tempArray[0].compareTo("WRITES") == 0) {
                 System.out.println("sys " + tempArray[0].toLowerCase() + " " + tempArray[1]);
