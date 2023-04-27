@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class SymbolTable {
     private String name;
-    private ArrayList<Symbol> symbols = new ArrayList<Symbol>();
+    public ArrayList<Symbol> symbols = new ArrayList<Symbol>();
 
     public SymbolTable(String name) {
         this.name = name;
