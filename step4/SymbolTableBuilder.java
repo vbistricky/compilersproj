@@ -292,13 +292,13 @@ public class SymbolTableBuilder extends LittleBaseListener {
                 System.out.println("muli " + tempArray[2] + " " + "r" + rIterate);
             } else if (tempArray[0].compareTo("MULTF") == 0) {
                 System.out.println("move " + tempArray[1] + " r" + rIterate);
-                System.out.println("mulf " + tempArray[2] + " " + "r" + rIterate);
+                System.out.println("mulr " + tempArray[2] + " " + "r" + rIterate);
             } else if (tempArray[0].compareTo("DIVI") == 0) {
                 System.out.println("move " + tempArray[1] + " r" + rIterate);
                 System.out.println("divi " + tempArray[2] + " " + "r" + rIterate);
             } else if (tempArray[0].compareTo("DIVF") == 0) {
                 System.out.println("move " + tempArray[1] + " r" + rIterate);
-                System.out.println("divf " + tempArray[2] + " " + "r" + rIterate);
+                System.out.println("divr " + tempArray[2] + " " + "r" + rIterate);
             } else if (tempArray[0].compareTo("WRITEI") == 0) {
                 System.out.println("sys writei " + tempArray[1]);
             } else if (tempArray[0].compareTo("WRITEF") == 0) {
@@ -310,7 +310,7 @@ public class SymbolTableBuilder extends LittleBaseListener {
                 System.out.println("addi " + tempArray[2] + " " + "r" + rIterate);
             } else if (tempArray[0].compareTo("ADDF") == 0) {
                 System.out.println("move " + tempArray[1] + " r" + rIterate);
-                System.out.println("addf " + tempArray[2] + " " + "r" + rIterate);
+                System.out.println("addr " + tempArray[2] + " " + "r" + rIterate);
             } else if (tempArray[0].compareTo("SUBI") == 0) {
                 System.out.println("move " + tempArray[1] + " r" + rIterate);
                 System.out.println("subi " + tempArray[2] + " " + "r" + rIterate);
