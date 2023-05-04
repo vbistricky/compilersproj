@@ -109,13 +109,9 @@ public class SymbolTableBuilder extends LittleBaseListener {
                     && !(expr.contains("*") || expr.contains("/") || expr.contains("+") || expr.contains("-"))) {
                 String type = symbolTables.get(0).symbols.get(i).getType();
                 if (type.compareTo("INT") == 0) {
-                    IRArray.add("STOREI " + expr + " " + "$T" + iterate);
-                    IRArray.add("STOREI " + "$T" + iterate + " " + id);
-                    iterate++;
+                    IRArray.add("STOREI " + expr + " " + id);
                 } else if (type.compareTo("FLOAT") == 0) {
-                    IRArray.add("STOREF " + expr + " " + "$T" + iterate);
-                    IRArray.add("STOREF " + "$T" + iterate + " " + id);
-                    iterate++;
+                    IRArray.add("STOREF " + expr + " " + id);
                 }
             }
         }
@@ -283,7 +279,7 @@ public class SymbolTableBuilder extends LittleBaseListener {
                     System.out.println("r" + rIterate + " " + tempArray[2]);
                     rIterate++;
                 } else {
-                    System.out.println(tempArray[1] + " r" + rIterate);
+                    System.out.println(tempArray[1] + " " + tempArray[2]);
                 }
             } else if (tempArray[0].compareTo("READI") == 0 || tempArray[0].compareTo("READF") == 0) {
                 System.out.println("sys " + tempArray[0].toLowerCase() + " " + tempArray[1]);
